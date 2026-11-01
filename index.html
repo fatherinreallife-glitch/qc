@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uk"><head><meta charset="utf-8"><title>Quiet Compound</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0a0a0b"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#0a0a0b;--card:#141416;--tx:#ece8df;--mut:#8c8a84;--ac:#d4a24c;--bd:#26262a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+h1{font:italic 600 1.7rem Georgia,"Times New Roman",serif;margin:0;letter-spacing:.5px}h1 span{color:var(--ac)}
+.sub{color:var(--mut);font-size:.88rem}
+nav{display:flex;gap:6px;margin:16px 0}
+button{font:inherit;cursor:pointer}
+nav button{flex:1;padding:9px 4px;border:1px solid var(--bd);background:var(--card);color:var(--mut);border-radius:10px;font-size:.9rem}
+nav button.on{color:#0a0a0b;background:var(--ac);border-color:var(--ac);font-weight:600}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:12px}
+.tag{display:inline-block;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ac);margin-bottom:6px}
+h2{font:600 1.3rem Georgia,serif;margin:0 0 8px}
+a.l{display:block;padding:10px 12px;margin-top:8px;border:1px solid var(--bd);border-radius:10px;color:var(--tx);text-decoration:none;background:#0f0f11}
+a.l::after{content:" ↗";color:var(--ac)}
+.b{padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx)}
+.b.p{background:var(--ac);color:#0a0a0b;border-color:var(--ac);font-weight:600}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+textarea,input{width:100%;padding:10px;border:1px solid var(--bd);border-radius:10px;background:#0f0f11;color:var(--tx);font:inherit;margin-top:8px}
+.m{padding:10px 12px;border-radius:12px;margin-bottom:8px;white-space:pre-wrap;max-width:90%}
+.m.u{background:var(--ac);color:#0a0a0b;margin-left:auto}.m.a{background:#1c1c20}
+.it{padding:12px;border-bottom:1px solid var(--bd);cursor:pointer}.it small{color:var(--mut);display:block}
+.chk{display:flex;gap:10px;align-items:center;padding:8px 0}.chk input{width:20px;height:20px;margin:0;accent-color:var(--ac)}
+.top{display:flex;gap:12px;align-items:center}.b:disabled{opacity:.35;cursor:default}
+#sp{position:fixed;inset:0;z-index:99;background:#0a0a0b;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s}
+#sp.x{opacity:0;pointer-events:none}
+#sp svg{width:200px;height:200px;overflow:visible}
+#sp svg *{fill:none;stroke:var(--ac);stroke-width:10;stroke-linecap:round;transform-box:fill-box;transform-origin:center}
+#sp .dot{fill:var(--ac);stroke:none;animation:pop .5s 1.9s both}
+#sp .p{opacity:0;animation:rip 1.6s both}#sp .p2{animation-delay:.45s}#sp .p3{animation-delay:.9s}
+#sp .r{opacity:0;animation:fade .8s 1.7s forwards}
+#sp .t{stroke-dasharray:100;stroke-dashoffset:100;animation:draw .45s 2.4s forwards ease-out}
+#sp .wm{font:italic 700 30px Georgia,"Times New Roman",serif;margin-top:6px;white-space:nowrap;color:var(--tx)}
+#sp .wm span{opacity:0;display:inline-block;animation:rise .6s forwards}
+#sp .sk{position:absolute;bottom:calc(30px + env(safe-area-inset-bottom,0px));color:var(--mut);font-size:.8rem}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes rip{0%{opacity:0;transform:scale(.05)}25%{opacity:.7}100%{opacity:0;transform:scale(1.25)}}
+@keyframes pop{0%{opacity:0;transform:scale(0)}70%{transform:scale(1.4)}100%{opacity:1;transform:scale(1)}}
+@keyframes fade{to{opacity:1}}
+</style></head><body><main>
+<div class="top"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#d4a24c" stroke-linecap="round"><circle cx="22" cy="22" r="14" stroke-width="2.5"/><path d="M32 32l9 9" stroke-width="2.5"/><circle cx="22" cy="22" r="2" fill="#d4a24c" stroke="none"/></svg><div><h1>Quiet <span>Compound</span></h1><div class="sub" id="sub"></div></div></div><div class="row" style="margin:12px 0 0"><button class="b" id="bk" onclick="nav(-1)">←</button><button class="b" id="fw" onclick="nav(1)">→</button><button class="b" onclick="location.reload()">⟳</button></div>
+<nav><button data-v="today">Сьогодні</button><button data-v="lib">Теми</button><button data-v="news">Світ</button><button data-v="chat">Claude</button></nav>
+<div id="app"></div></main>
+<div id="sp"><svg viewBox="0 0 200 200"><circle class="p p1" cx="100" cy="92" r="50"/><circle class="p p2" cx="100" cy="92" r="50"/><circle class="p p3" cx="100" cy="92" r="50"/><circle class="r" cx="100" cy="92" r="50"/><path class="t" pathLength="100" d="M136 128L162 154"/><circle class="dot" cx="100" cy="92" r="7"/></svg><div class="wm" id="w2"></div><div class="sk">торкнись, щоб пропустити</div></div>
+<script>
+window.claude=window.claude||{use:async()=>null};
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+const G=q=>"https://www.google.com/search?q="+encodeURIComponent(q);
+const L=[
+["Гроші","Що таке інфляція","Поясни своїми словами, чому ціни ростуть і хто від цього програє.",["що таке інфляція простими словами","інфляція в Україні НБУ 2026","як захистити гроші від інфляції"]],
+["Гроші","Складний відсоток","Порахуй, що буде з 1000 $ за 10 років під 8% річних.",["складний відсоток простими словами","калькулятор складного відсотка"]],
+["Гроші","Облігації (ОВДП)","Дізнайся, як купити ОВДП і чим вони відрізняються від депозиту.",["що таке ОВДП як купити","облігації vs депозит"]],
+["Гроші","Чому змінюється курс валют","Знайди 2 причини, чому долар дорожчає або дешевшає.",["від чого залежить курс валюти","чому гривня слабшає"]],
+["Бізнес","Юніт-економіка","Порахуй, скільки заробляє заклад на одному бургері: ціна, собівартість, прибуток.",["юніт економіка простими словами","собівартість страви ресторан"]],
+["Бізнес","Як автоматизувати заклад","Випиши 3 проблеми у твоєму закладі й як їх вирішити процесом.",["як автоматизувати роботу кухні","стандарти операційних процесів ресторан","SOP для фастфуду"]],
+["Бізнес","Франшиза зсередини","Дізнайся, за що власник франшизи платить роялті.",["як працює франшиза","переваги і ризики франшизи"]],
+["Бізнес","Маркетинг: воронка продажів","Розбери воронку на прикладі бренду, який тобі подобається.",["що таке воронка продажів","маркетинг харчового бренду кейс"]],
+["Авто","Двигун внутрішнього згоряння vs електро","Знайди по 2 плюси й мінуси кожного.",["як працює двигун внутрішнього згоряння","електромобіль vs бензин порівняння"]],
+["Авто","Детейлінг: ніша та гроші","Дізнайся, які послуги найприбутковіші у студії детейлінгу.",["детейлінг студія бізнес","керамічне покриття авто що це"]],
+["Авто","Як оцінити авто для перепродажу","Знайди 5 ознак, що авто варто перепродавати.",["як купити авто для перепродажу","перевірка авто перед купівлею"]],
+["Годинники","Як працює механічний годинник","Опиши своїми словами, що таке анкерний хід.",["як працює механічний годинник","механізм годинника анкерний хід"]],
+["Годинники","Patek Philippe та Vacheron Constantin","Дізнайся, чому ці бренди такі дорогі.",["Patek Philippe історія бренду","Vacheron Constantin історія","чому швейцарські годинники дорогі"]],
+["Люди","Мова тіла: базові сигнали","Сьогодні спостерігай за двома людьми: де вони дивляться, що роблять руками.",["мова тіла основні сигнали","невербальна комунікація базово"]],
+["Люди","Як почати розмову з незнайомцем","Спробуй сьогодні одну коротку розмову й запиши, що спрацювало.",["як почати розмову з незнайомою людиною","small talk техніки"]],
+["Люди","Активне слухання","Сьогодні в розмові став 2 уточнюючих запитання замість історії про себе.",["активне слухання техніки","як стати цікавим співрозмовником"]],
+["Люди","48 законів влади: закон 1–3","Прочитай огляд і знайди приклад із життя для кожного закону.",["48 законів влади огляд","Роберт Грін закон 1 2 3"]],
+["Спорт","Волейбол: правила гри","Дізнайся, як рахуються очки, що таке ротація і яка роль ліберо.",["волейбол правила гри простими словами","волейбол ротація і ліберо"]],
+["Спорт","Баскетбол: правила гри","Дізнайся, що таке фоли, крокування, 24 секунди й скільки очок дає кожен кидок.",["баскетбол правила гри простими словами","баскетбол фоли і порушення"]],
+["Спорт","Футбол: правила гри","Дізнайся, що таке офсайд, пенальті й чим жовта картка відрізняється від червоної.",["футбол правила гри простими словами","футбол офсайд пояснення"]],
+["Світ","Світова економіка: хто головний","Знайди 5 країн із найбільшими економіками й дізнайся, чим вони заробляють.",["найбільші економіки світу ВВП","як працює світова торгівля"]],
+["Світ","Новина про завод чи бізнес","Знайди одну новину про новий завод чи угоду і запиши: хто, що, навіщо.",["світові бізнес новини сьогодні","новий завод відкрили у світі 2026","світова економіка що відбувається зараз"]],
+["Світ","Як працює ШІ","Дізнайся, чим нейромережа відрізняється від звичайної програми.",["як працює нейромережа простими словами","що таке велика мовна модель"]]];
+const N=[["Forbes Ukraine","https://forbes.ua"],["BBC News Україна: світ","https://www.bbc.com/ukrainian"],["Euronews Україна","https://ua.euronews.com"],["Reuters: світова економіка","https://www.reuters.com/business/"],["Bloomberg","https://www.bloomberg.com"],["Hodinkee: годинники","https://www.hodinkee.com"],["Autocar: авто","https://www.autocar.co.uk"]];
+const YT=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q);
+const I=[["Big Money: інтерв’ю з засновниками","Big Money інтерв’ю засновник"],["Як створювали Монобанк","Монобанк засновник інтерв’ю як створили банк"],["Власники ресторанних мереж","інтерв’ю власник мережі ресторанів як відкрити"],["Автобізнес: власники про заробіток","інтерв’ю автобізнес власник як заробляє"],["Нікіта Козир","Нікіта Козир інтерв’ю"],["Відомі інвестори українською","інтерв’ю відомий інвестор українською"]];
+const SYS="Ти — ментор-друг у застосунку Quiet Compound. Користувач: працює кухарем у фастфуді, графік нестабільний, любить волейбол, баскетбол, плавання, авто й годинники, хоче розбиратися в грошах, бізнесі й спілкуванні, починає читати книжки. Відповідай дуже коротко: 1–3 речення, розмовно, простою українською, без списків і без води. Це голосова розмова: став не більше одного питання й м’яко поправляй, якщо людина помиляється. Не вигадуй свіжих новин: для новин відсилай до джерел.";
+let S;try{S=JSON.parse(localStorage.getItem("qc")||"null")}catch(e){}S=S||{};
+S.cur=S.cur??0;S.days=S.days||{};S.notes=S.notes||{};S.micro=S.micro||{};
+const sv=()=>{try{localStorage.setItem("qc",JSON.stringify(S))}catch(e){}};
+const td=()=>new Date().toISOString().slice(0,10);
+let view="today",hist=[],sample=null;
+const app=document.getElementById("app");
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function head(){document.getElementById("sub").textContent="Тихий складний ріст · активних днів: "+Object.keys(S.days).length;const a=document.getElementById("bk"),f=document.getElementById("fw");if(a){a.disabled=hp<1;f.disabled=hp>=H.length-1}}
+function render(){if(!rs){const q=view+"|"+S.cur;if(H[hp]!==q){H=H.slice(0,hp+1);H.push(q);hp=H.length-1}}rs=false;head();document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v==view));
+if(view=="today"){const t=L[S.cur],k=td(),m=S.micro[k]||[0,0];
+app.innerHTML='<div class="c"><span class="tag">'+t[0]+' · тема дня</span><h2>'+t[1]+'</h2><div>'+t[2]+'</div><div class="sub" style="margin-top:12px">Шукай сам:</div>'+t[3].map(q=>'<a class="l" target="_blank" rel="noopener" href="'+G(q)+'">'+q+'</a>').join("")+'<textarea id="nt" rows="3" placeholder="Що я зрозумів (2–3 речення)...">'+esc(S.notes[S.cur]||"")+'</textarea><div class="row"><button class="b p" id="dn">'+(S.days[k]&&S.days[k].includes(S.cur)?"✓ Вивчено":"Відмітити як вивчене")+'</button><button class="b" id="sk">Інша тема</button></div></div>'+
+'<div class="c"><span class="tag">Мінімум на день (за бажанням)</span><label class="chk"><input type="checkbox" data-i="0" '+(m[0]?"checked":"")+'>Прочитати 10 сторінок</label><label class="chk"><input type="checkbox" data-i="1" '+(m[1]?"checked":"")+'>Одна англійська фраза</label></div><div class="sub">Немає графіка й «пропущених днів». Робиш — добре, ні — просто йдеш далі.<br><br><b>Quiet Compound</b> — «тихий складний ріст». Quiet — тихо, без шуму й тиску. Compound — ріст зі «складним відсотком»: маленькі щоденні кроки накопичуються й множаться, і через рік результат більший, ніж здається.</div>';
+document.getElementById("nt").oninput=e=>{S.notes[S.cur]=e.target.value;sv()};
+document.getElementById("dn").onclick=()=>{S.days[k]=[...new Set([...(S.days[k]||[]),S.cur])];sv();render()};
+document.getElementById("sk").onclick=()=>{S.cur=(S.cur+1+Math.floor(Math.random()*(L.length-1)))%L.length;sv();render()};
+app.querySelectorAll("input[type=checkbox]").forEach(c=>c.onchange=()=>{const x=S.micro[k]||[0,0];x[c.dataset.i]=c.checked?1:0;S.micro[k]=x;sv()})}
+else if(view=="lib"){app.innerHTML=L.map((t,i)=>'<div class="it" data-i="'+i+'"><span class="tag">'+t[0]+'</span><div>'+t[1]+'</div>'+(S.notes[i]?'<small>є нотатка</small>':'')+'</div>').join("");app.querySelectorAll(".it").forEach(e=>e.onclick=()=>{S.cur=+e.dataset.i;sv();view="today";render()})}
+else if(view=="news"){app.innerHTML='<div class="c"><span class="tag">Світові новини</span><div class="sub">Свіжі новини застосунок сам не підтягує. Відкрий джерело, обери одну новину й запиши: хто, що, навіщо.</div>'+N.map(n=>'<a class="l" target="_blank" rel="noopener" href="'+n[1]+'">'+n[0]+'</a>').join("")+'</div><div class="c"><span class="tag">Інтерв’ю</span><div class="sub">Це пошук на YouTube. Обирай розмови про рішення й помилки, а не про дитинство. Вмикай субтитри й швидкість 1.25×. Після відео запиши 3 речі, які можна застосувати.</div>'+I.map(n=>'<a class="l" target="_blank" rel="noopener" href="'+YT(n[1])+'">'+n[0]+'</a>').join("")+'</div>'}
+else{app.innerHTML='<div class="c"><span class="tag">Claude</span><div id="ms"></div><textarea id="in" rows="2" placeholder="Напиши, що додати або про що поговорити..."></textarea><div class="row"><button class="b p" id="sd">Надіслати</button><button class="b" id="mc">🎙 Голос</button><button class="b" id="sp">🔊 Озвучка: вимк.</button></div><div class="sub" id="vs" style="margin-top:8px"></div></div>';drawMs();
+document.getElementById("sd").onclick=()=>send();document.getElementById("mc").onclick=toggleVoice;document.getElementById("sp").onclick=()=>{say=!say;document.getElementById("sp").textContent="🔊 Озвучка: "+(say?"увімк.":"вимк.");if(!say&&window.speechSynthesis)speechSynthesis.cancel()}}}
+function drawMs(){const e=document.getElementById("ms");if(!e)return;e.innerHTML=hist.length?hist.map(m=>'<div class="m '+(m.role=="user"?"u":"a")+'">'+esc(m.content)+'</div>').join(""):'<div class="sub">Запитай пораду з теми дня, попроси нові теми або скажи, що змінити в застосунку.</div>'}
+async function send(txt){const i=document.getElementById("in"),v=(typeof txt=="string"?txt:(i?i.value:"")).trim();if(!v)return;if(i)i.value="";hist.push({role:"user",content:v});hist.push({role:"assistant",content:"…"});drawMs();
+try{if(!sample)sample=await claude.use("sample");if(!sample)throw{message:"Чат зі мною працює лише всередині Claude. Відкрий claude.ai і напиши мені там."};
+const msgs=hist.slice(0,-1).map((m,j)=>j?m:{role:"user",content:SYS+"\n\n"+m.content});
+const r=await sample(msgs,{cache:false,onText:t=>{hist[hist.length-1].content=t.text;drawMs()}});hist[hist.length-1].content=r.text;if(voice||say)speak(r.text)}
+catch(e){hist[hist.length-1].content="Не вдалося: "+(e.message||e.code||"помилка")}drawMs()}
+let voice=false,rec=null,say=false,H=[],hp=-1,rs=false;
+function nav(d){const n=hp+d;if(n<0||n>=H.length)return;hp=n;const p=H[n].split("|");view=p[0];S.cur=+p[1];rs=true;sv();render()}
+function vs(t){const e=document.getElementById("vs");if(e)e.textContent=t}
+function speak(t){const s=window.speechSynthesis;if(!s){listen();return}s.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="uk-UA";u.rate=1.1;u.onend=()=>{if(voice)listen()};s.speak(u)}
+function listen(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){vs("Голосове введення не підтримується в цьому браузері. Спробуй Chrome.");voice=false;return}rec=new R();rec.lang="uk-UA";rec.interimResults=false;rec.onstart=()=>vs("🎙 Слухаю... (натисни «Голос», щоб вимкнути)");rec.onresult=e=>{vs("");send(e.results[0][0].transcript)};rec.onerror=e=>{if(e.error=="no-speech"&&voice){listen();return}vs("Браузер блокує мікрофон усередині сторінки ("+e.error+"). Натисни Win+H у полі вводу і диктуй, а «Озвучка» читатиме відповіді вголос.");voice=false};try{rec.start()}catch(e){}}
+function toggleVoice(){voice=!voice;if(!voice){try{rec&&rec.abort()}catch(e){}if(window.speechSynthesis)speechSynthesis.cancel();vs("");return}listen()}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{view=b.dataset.v;render()});render();
+(function(){const w=document.getElementById("w2");"Quiet Compound".split("").forEach((c,i)=>{const e=document.createElement("span");e.textContent=c==" "?"\u00a0":c;if(i>5)e.style.color="var(--ac)";e.style.animationDelay=(2.7+i*.07)+"s";w.appendChild(e)});const s=document.getElementById("sp");const h=()=>{s.classList.add("x");setTimeout(()=>s.remove(),700)};s.onclick=h;setTimeout(h,4800)})();
+</script></body></html>
